@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyCatDiary</string>
+    <string name="title_checklist">체크리스트</string>
+    <string name="title_calender">일정</string>
+    <string name="title_home">홈</string>
+    <string name="title_diary">일지</string>
+    <string name="title_bucket">장바구니</string>
+</resources>

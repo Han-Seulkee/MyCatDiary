@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.hsk.mycatdiary.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_checklist"
+        android:name="com.hsk.mycatdiary.ui.checklist.ChecklistFragment"
+        android:label="@string/title_checklist"
+        tools:layout="@layout/fragment_checklist" />
+
+    <fragment
+        android:id="@+id/navigation_diary"
+        android:name="com.hsk.mycatdiary.ui.diary.DiaryFragment"
+        android:label="@string/title_diary" />
+    <fragment
+        android:id="@+id/navigation_bucket"
+        android:name="com.hsk.mycatdiary.ui.bucket.BucketFragment"
+        android:label="@string/title_bucket" />
+</navigation>
