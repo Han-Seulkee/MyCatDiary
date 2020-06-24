@@ -33,12 +33,17 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
 
             <ImageButton
+                android:id="@+id/btnPrev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:src="@drawable/ic_before"
+                android:background="#0000"
                 android:layout_toLeftOf="@+id/tvTodo" />
 
             <TextView
@@ -47,28 +52,32 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="20dp"
-                android:text="godidkfjkjs"
+                android:text="해야할일"
                 android:textSize="30sp" />
 
             <ImageButton
-                android:id="@+id/check"
+                android:id="@+id/btnCheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/tvTodo"
                 android:background="#0000"
-                android:src="@drawable/ic_checklist" />
+                android:src="@drawable/ic_check" />
 
             <ImageButton
+                android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/check" />
+                android:src="@drawable/ic_next"
+                android:background="#0000"
+                android:layout_toRightOf="@+id/btnCheck" />
         </RelativeLayout>
     </ViewFlipper>
 
     <TextClock
+        android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -78,9 +87,12 @@
         app:layout_constraintTop_toBottomOf="@id/vf" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChecklist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/clock"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

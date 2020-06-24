@@ -81,7 +81,7 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/btncheck"
+            android:id="@+id/btnCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
