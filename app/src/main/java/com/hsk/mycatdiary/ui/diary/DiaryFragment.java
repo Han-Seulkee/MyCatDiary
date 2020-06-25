@@ -1,10 +1,11 @@
 package com.hsk.mycatdiary.ui.diary;
 
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,8 @@ public class DiaryFragment extends Fragment {
     DiaryRecyclerAdapter adapter;
     LinearLayoutManager layoutManager;
 
+    ImageButton btnAdd;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_diary, container, false);
@@ -29,12 +32,15 @@ public class DiaryFragment extends Fragment {
         rv.setAdapter(adapter);
         rv.setLayoutManager(layoutManager);
 
+        btnAdd = root.findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), DiaryWrite.class);
+                startActivity(intent);
+            }
+        });
 
         return root;
-    }
-
-    public class MyDBHelper extends SQLiteOpenHelper {
-
-
     }
 }

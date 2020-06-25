@@ -83,7 +83,9 @@
             android:layout_marginRight="50dp"
             android:onClick="onRegister"
             android:background="@drawable/def_button"
-            android:text="회원가입" />
+            android:text="회원가입"
+            android:textStyle="bold"
+            />
 
         <Button
             android:id="@+id/login"
@@ -93,6 +95,8 @@
             android:onClick="onLogin"
             android:background="@drawable/emph_button"
             android:text="로그인"
+            android:textColor="#fff"
+            android:textStyle="bold"
             />
     </RelativeLayout>
 
