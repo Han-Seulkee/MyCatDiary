@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.hsk.mycatdiary.R;
 
@@ -24,7 +25,7 @@ public class HomeFragment extends Fragment {
         btnShortcut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Navigation.findNavController(root).navigate(R.id.action_navigation_home_to_navigation_checklist);
             }
         });
 
