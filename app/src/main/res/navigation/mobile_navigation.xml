@@ -24,9 +24,17 @@
     <fragment
         android:id="@+id/navigation_diary"
         android:name="com.hsk.mycatdiary.ui.diary.DiaryFragment"
-        android:label="@string/title_diary" />
+        android:label="@string/title_diary" >
+        <action
+            android:id="@+id/action_navigation_diary_to_navigation_diarycontent"
+            app:destination="@id/navigation_diarycontent" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_bucket"
         android:name="com.hsk.mycatdiary.ui.bucket.BucketFragment"
         android:label="@string/title_bucket" />
+    <fragment
+        android:id="@+id/navigation_diarycontent"
+        android:name="com.hsk.mycatdiary.ui.diary.DiaryContent"
+        android:label="DiaryContent" />
 </navigation>

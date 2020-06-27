@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".MainActivity" android:label="마이캣다이어리"/>
         <activity android:name=".ui.diary.DiaryWrite" android:label="일지쓰기"/>
+        <activity android:name=".ui.diary.DiaryContent" android:label="일지읽기"/>
     </application>
 
 </manifest>

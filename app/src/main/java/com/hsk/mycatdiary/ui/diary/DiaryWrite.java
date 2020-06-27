@@ -2,6 +2,8 @@ package com.hsk.mycatdiary.ui.diary;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,30 +19,50 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.hsk.mycatdiary.DataBaseHelper;
 import com.hsk.mycatdiary.R;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class DiaryWrite extends AppCompatActivity {
-    Toolbar  toolbar;
+    Toolbar toolbar;
 
     Button btnCommit;
     ImageButton btnDatepick;
-    RadioGroup state;
-    EditText editTitle,editDate,editContent;
-    String nYear,nMonth, nDay;
+    RadioGroup rgState;
+    EditText editTitle, editDate, editContent;
+
+    SimpleDateFormat dayFormat, monthFormat, yearFormat;
+    String nYear, nMonth, nDay;
     int ty, tm, td, y, m, d;
 
-    SimpleDateFormat dayFormat,monthFormat, yearFormat;
+    String TITLE, DATE, STATE, CONTENT;
+
+    SQLiteDatabase sqlDB;
+    DataBaseHelper dbHelper;
+
+    RecyclerView rv;
+    DiaryRecyclerAdapter adapter;
+    ArrayList<DiaryListData> data;
+    ArrayList<String> idx;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diarywrite);
+
+        Intent intent = getIntent();
+        int viewID = intent.getIntExtra("rv",0);
+        rv = findViewById(viewID);
+        data = new ArrayList<>();
+        idx = new ArrayList<String>();
+        dbHelper = new DataBaseHelper(getApplicationContext());
 
         //상단탭 취소버튼
         toolbar = findViewById(R.id.toolbar);
@@ -54,7 +76,9 @@ public class DiaryWrite extends AppCompatActivity {
         editDate = findViewById(R.id.editDate);
         editContent = findViewById(R.id.editContent);
         btnDatepick = findViewById(R.id.btnDatepick);
-        state = findViewById(R.id.state);
+        rgState = findViewById(R.id.rgState);
+
+        dbHelper = new DataBaseHelper(this);
 
         //오늘날짜
         Date now = Calendar.getInstance().getTime();
@@ -64,17 +88,17 @@ public class DiaryWrite extends AppCompatActivity {
         nYear = yearFormat.format(now);
         nMonth = monthFormat.format(now);
         nDay = dayFormat.format(now);
-
         //오늘날짜를 int로 변형 -> DatePicker에서 기본날짜로 설정
         ty = Integer.parseInt(nYear);
-        tm = Integer.parseInt(nMonth);
+        tm = Integer.parseInt(nMonth) - 1;
         td = Integer.parseInt(nDay);
 
         //제목, 날짜는 기본으로 오늘 날짜로 설정
-        editTitle.setText(nYear+"."+nMonth+"."+nDay);
-        editDate.setText(nYear+"."+nMonth+"."+nDay);
+        editTitle.setText(nYear + "." + nMonth + "." + nDay);
+        editDate.setText(nYear + "-" + nMonth + "-" + nDay);
 
         //날짜 선택
+        DATE = editDate.getText().toString();
         btnDatepick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,22 +106,38 @@ public class DiaryWrite extends AppCompatActivity {
             }
         });
 
-        //상태 선택
-        state.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        //기본 선택값
+        RadioButton d = findViewById(rgState.getCheckedRadioButtonId());
+        STATE = d.getText().toString();
+        //다른 상태 선택시
+        rgState.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton st = findViewById(checkedId);
-                Toast.makeText(getApplicationContext(),st.getText().toString(),Toast.LENGTH_SHORT).show();
+                STATE = st.getText().toString();
+                Toast.makeText(getApplicationContext(), st.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        //내용
 
         //완료버튼으로 글 저장
         btnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //db insert&리사이클러뷰 추가,업데이트
+                TITLE = editTitle.getText().toString();
+                CONTENT = editContent.getText().toString();
+                if(TITLE.equals("")) {
+                    Toast.makeText(getApplicationContext(), "제목을 입력하세요", Toast.LENGTH_SHORT).show();
+                    editTitle.requestFocus();
+                }
+                else if (CONTENT.equals("")) {
+                    Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
+                    editContent.requestFocus();
+                }
+                else {
+                    dbHelper.insertDiary(TITLE, DATE, CONTENT, STATE);
+                    finish();
+                }
             }
         });
 
@@ -105,11 +145,11 @@ public class DiaryWrite extends AppCompatActivity {
 
     //날짜 선택
     private void datePick() {
-        DatePickerDialog datePickerDialog= new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 y = year;
-                m = monthOfYear+1;
+                m = monthOfYear + 1;
                 d = dayOfMonth;
 
                 //숫자 포맷 설정
@@ -117,9 +157,11 @@ public class DiaryWrite extends AppCompatActivity {
                 String mForm = myFormatter.format(m);
                 String dForm = myFormatter.format(d);
 
-                editDate.setText(y+"."+mForm+"."+dForm); //선택된 날짜로 설정
+                DATE = y + "-" + mForm + "-" + dForm; //db에 저장할 형식으로 저장
+
+                editDate.setText(DATE); //선택된 날짜로 설정
             }
-        },ty, tm, td);
+        }, ty, tm, td);
         datePickerDialog.show();
     }
 
