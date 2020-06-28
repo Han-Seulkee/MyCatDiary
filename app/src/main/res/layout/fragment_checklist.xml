@@ -24,64 +24,51 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
-    <ViewFlipper
-        android:id="@+id/vf"
+    <RelativeLayout
+        android:id="@+id/flip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@+id/vf"
+            android:background="#0000"
+            android:src="@drawable/ic_before" />
 
-            <ImageButton
-                android:id="@+id/btnPrev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tvTodo"
-                android:background="#0000"
-                android:src="@drawable/ic_before" />
+        <ViewFlipper
+            android:id="@+id/vf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp">
+        </ViewFlipper>
 
-            <CheckBox
-                android:id="@+id/tvTodo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginHorizontal="20dp"
-                android:button="@drawable/ic_check"
-                android:enabled="false"
-                android:text="완료"
-                android:textSize="30sp" />
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/vf"
+            android:background="#0000"
+            android:src="@drawable/ic_next" />
+    </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/btnNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tvTodo"
-                android:background="#0000"
-                android:src="@drawable/ic_next" />
-        </RelativeLayout>
-    </ViewFlipper>
-
-    <!--<TextClock
+    <TextClock
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vf" />-->
-
-    <View
-        android:id="@+id/clock"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@id/vf" />
+        app:layout_constraintTop_toBottomOf="@id/flip" />
 
     <LinearLayout
         android:id="@+id/list"

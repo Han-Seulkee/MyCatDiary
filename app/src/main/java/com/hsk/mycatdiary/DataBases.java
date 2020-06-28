@@ -5,15 +5,16 @@ import android.provider.BaseColumns;
 public class DataBases {
 
     public static final class createCat implements BaseColumns {
-        public static final String CATID = "catID";
         public static final String CATNAME = "catName";
         public static final String CATAGE = "catAge";
+        public static final String CATBIRTH = "catBirth";
         public static final String HOSPITAL = "hos_tel";
         public static final String _TABLECAT = "Cat";
         public static final String _CREATECAT = "CREATE TABLE IF NOT EXISTS "+_TABLECAT+"("
-                +CATID+" TEXT NOT NULL PRIMARY KEY, "
+                +_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
                 +CATNAME+" TEXT NOT NULL, "
                 +CATAGE+" INTEGER NOT NULL, "
+                +CATBIRTH+" TEXT NOT NULL, "
                 +HOSPITAL+" TEXT NOT NULL);";
     }
 
@@ -41,5 +42,17 @@ public class DataBases {
                 +TODO+" TEXT NOT NULL, "
                 +STATE+" INTEGER NOT NULL, "
                 +TIME+" TEXT NOT NULL);";
+    }
+
+    public static final class createBucket implements BaseColumns {
+        public static final String GOODS = "goods";
+        public static final String TAG = "tag";
+        public static final String LINK = "link";
+        public static final String _TABLEBUCKET = "Bucket";
+        public static final String _CREATEBUCKET = "CREATE TABLE IF NOT EXISTS "+_TABLEBUCKET+"("
+                +_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +GOODS+" TEXT NOT NULL, "
+                +TAG+" TEXT NOT NULL, "
+                +LINK+" TEXT NOT NULL);";
     }
 }

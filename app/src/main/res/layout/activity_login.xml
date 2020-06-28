@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="80dp"
-        android:text="로그인"
+        android:layout_marginTop="70dp"
+        android:text="고양이 정보입력"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -39,34 +39,46 @@
         app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
 
     <EditText
-        android:id="@+id/editId"
+        android:id="@+id/editCatname"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="60dp"
         android:layout_marginVertical="5dp"
         android:background="@android:drawable/editbox_background_normal"
-        android:hint="아이디"
+        android:hint="고양이 이름"
         app:layout_constraintTop_toBottomOf="@+id/bar" />
 
     <EditText
-        android:id="@+id/editPw"
+        android:id="@+id/editBirth"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="20dp"
         android:background="@android:drawable/editbox_background_normal"
-        android:hint="비밀번호"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editId" />
+        android:hint="고양이 생일 YYYY-MM-DD"
+        app:layout_constraintTop_toBottomOf="@+id/editCatname" />
 
-    <TextView
-        android:id="@+id/pwCheck"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/btnDatepick"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        app:layout_constraintRight_toRightOf="@+id/editBirth"
+        app:layout_constraintTop_toTopOf="@+id/editBirth"
+        app:layout_constraintBottom_toBottomOf="@+id/editBirth"
+        android:background="#0000"
+        android:src="@drawable/ic_calender" />
+
+    <EditText
+        android:id="@+id/editHospital"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="60dp"
-        android:layout_marginVertical="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/editPw"
-        android:textColor="#ff0000"/>
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:hint="동물병원 전화번호"
+        app:layout_constraintTop_toBottomOf="@+id/editBirth" />
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -74,27 +86,15 @@
         android:layout_marginTop="70dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editPw">
-
-        <Button
-            android:id="@+id/register"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="50dp"
-            android:onClick="onRegister"
-            android:background="@drawable/def_button"
-            android:text="회원가입"
-            android:textStyle="bold"
-            />
+        app:layout_constraintTop_toBottomOf="@id/editHospital">
 
         <Button
             android:id="@+id/login"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_toRightOf="@+id/register"
             android:onClick="onLogin"
             android:background="@drawable/emph_button"
-            android:text="로그인"
+            android:text="시작하기"
             android:textColor="#fff"
             android:textStyle="bold"
             />

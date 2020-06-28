@@ -3,7 +3,6 @@ package com.hsk.mycatdiary.ui.diary;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,26 +43,20 @@ public class DiaryWrite extends AppCompatActivity {
     int ty, tm, td, y, m, d;
 
     String TITLE, DATE, STATE, CONTENT;
+    String tt, dt, ct;
+    long id;
 
-    SQLiteDatabase sqlDB;
     DataBaseHelper dbHelper;
 
     RecyclerView rv;
     DiaryRecyclerAdapter adapter;
     ArrayList<DiaryListData> data;
     ArrayList<String> idx;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diarywrite);
-
-        Intent intent = getIntent();
-        int viewID = intent.getIntExtra("rv",0);
-        rv = findViewById(viewID);
-        data = new ArrayList<>();
-        idx = new ArrayList<String>();
-        dbHelper = new DataBaseHelper(getApplicationContext());
-
         //상단탭 취소버튼
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,7 +71,18 @@ public class DiaryWrite extends AppCompatActivity {
         btnDatepick = findViewById(R.id.btnDatepick);
         rgState = findViewById(R.id.rgState);
 
-        dbHelper = new DataBaseHelper(this);
+        Intent intent = getIntent();
+        int viewID = intent.getIntExtra("rv", 0);
+        tt = intent.getStringExtra("title");
+        dt = intent.getStringExtra("date");
+        ct = intent.getStringExtra("content");
+        id = intent.getLongExtra("id", 0);
+        final boolean isEdit = intent.getBooleanExtra("edit", false);
+
+        rv = findViewById(viewID);
+        data = new ArrayList<>();
+        idx = new ArrayList<String>();
+        dbHelper = new DataBaseHelper(getApplicationContext());
 
         //오늘날짜
         Date now = Calendar.getInstance().getTime();
@@ -115,10 +119,11 @@ public class DiaryWrite extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton st = findViewById(checkedId);
                 STATE = st.getText().toString();
-                Toast.makeText(getApplicationContext(), st.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
+
+        if (isEdit) editMode();
         //완료버튼으로 글 저장
         btnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,17 +131,22 @@ public class DiaryWrite extends AppCompatActivity {
                 //db insert&리사이클러뷰 추가,업데이트
                 TITLE = editTitle.getText().toString();
                 CONTENT = editContent.getText().toString();
-                if(TITLE.equals("")) {
+                if (TITLE.equals("")) {
                     Toast.makeText(getApplicationContext(), "제목을 입력하세요", Toast.LENGTH_SHORT).show();
                     editTitle.requestFocus();
-                }
-                else if (CONTENT.equals("")) {
+                } else if (CONTENT.equals("")) {
                     Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
                     editContent.requestFocus();
-                }
-                else {
-                    dbHelper.insertDiary(TITLE, DATE, CONTENT, STATE);
-                    finish();
+                } else {
+                    if (isEdit) {
+                        dbHelper.updateDiary(id, TITLE, DATE, CONTENT, STATE);
+
+                        finish();
+                    } else {
+                        dbHelper.insertDiary(TITLE, DATE, CONTENT, STATE);
+
+                        finish();
+                    }
                 }
             }
         });
@@ -163,6 +173,12 @@ public class DiaryWrite extends AppCompatActivity {
             }
         }, ty, tm, td);
         datePickerDialog.show();
+    }
+
+    void editMode() {
+        editTitle.setText(tt);
+        editDate.setText(dt);
+        editContent.setText(ct);
     }
 
     @Override

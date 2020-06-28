@@ -10,7 +10,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "myDb.db";
     SQLiteDatabase db;
 
-    String[] todo = {"아침밥", "간식", "점심밥", "물 갈아주기", "화장실 치우기", "간식", "저녁밥", "화장실 치우기"};
+    String[] todo = {"아침밥", "오전간식", "점심밥", "물 갈기", "화장실!", "오후간식", "저녁밥", "화장실!!"};
     int[] state = {0, 0, 0, 0, 0, 0, 0, 0};
     String[] time = {"1st", "2nd", "3rd", "3rd", "3rd", "4th", "5th", "5th"};
 
@@ -24,6 +24,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(DataBases.createCat._CREATECAT);
         db.execSQL(DataBases.createDiary._CREATEDIARY);
         db.execSQL(DataBases.createTodo._CREATETODO);
+        db.execSQL(DataBases.createBucket._CREATEBUCKET);
 
         for (int i = 0; i < todo.length; i++) {
             db.execSQL("INSERT INTO Todo VALUES ( "+i+", '"+todo[i]+"', "+state[i]+", '"+time[i]+"');");
@@ -35,18 +36,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DataBases.createCat._TABLECAT);
         db.execSQL("DROP TABLE IF EXISTS " + DataBases.createDiary._TABLEDIARY);
         db.execSQL("DROP TABLE IF EXISTS " + DataBases.createTodo._TABLETODO);
+        db.execSQL("DROP TABLE IF EXISTS " + DataBases.createBucket._TABLEBUCKET);
         onCreate(db);
     }
 
     //고양이 정보 저장
-    public long insertCat(String catID, String catName, String catAge, String hos_tel) {
+    public long insertCat(String catName, int catAge, String catBirth,String hos_tel) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DataBases.createCat.CATID, catID);
         values.put(DataBases.createCat.CATNAME, catName);
         values.put(DataBases.createCat.CATAGE, catAge);
+        values.put(DataBases.createCat.CATBIRTH, catBirth);
         values.put(DataBases.createCat.HOSPITAL, hos_tel);
-        return db.insert(DataBases.createDiary._TABLEDIARY, null, values);
+        return db.insert(DataBases.createCat._TABLECAT, null, values);
     }
 
     //일지 저장
@@ -60,15 +62,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.insert(DataBases.createDiary._TABLEDIARY, null, values);
     }
 
-    //체크리스트 목록 저장
-    /*public long insertTodo(String todo, int state, String time) {
+    public long insertBucket(String goods, String tag, String link) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DataBases.createTodo.TODO, todo);
-        values.put(DataBases.createTodo.STATE, state);
-        values.put(DataBases.createTodo.TIME, time);
-        return db.insert(DataBases.createTodo._TABLETODO, null, values);
-    }*/
+        values.put(DataBases.createBucket.GOODS, goods);
+        values.put(DataBases.createBucket.TAG, tag);
+        values.put(DataBases.createBucket.LINK, link);
+        return db.insert(DataBases.createBucket._TABLEBUCKET,null,values);
+    }
 
     //일지 수정 (id로 구분)
     public boolean updateDiary(long id, String title, String date, String content, String catState) {
@@ -81,7 +82,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.update(DataBases.createDiary._TABLEDIARY, values, "_id=" + id, null) > 0;
     }
 
-    //체크리스트 상태변경시
+    //체크리스트 상태 변경시
     public boolean updateTodoState(long id, int state) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -95,33 +96,59 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.delete(DataBases.createDiary._TABLEDIARY, "_id=" + id, null) > 0;
     }
 
-    public Cursor selectDiary() {
+    public Cursor selectCat() {
         db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM Diary ORDER BY date desc;", null);
+        Cursor c = db.rawQuery("SELECT * FROM Cat;", null);
         return c;
     }
 
+    //다이어리 검색(목록)
+    public Cursor selectDiary() {
+        db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM Diary ORDER BY _id desc;", null);
+        return c;
+    }
+
+    //특정 다이어리정보
     public Cursor showDiary(long id) {
         db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM Diary WHERE _id=" + id + ";", null);
         return c;
     }
 
-    public Cursor showTodo(String time) { //해당시간에 선택이 안되어있는 리스트
+    //해당시간에 선택이 안되어있는 리스트
+    public Cursor showTodo(String time) {
         db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM Todo WHERE state=0 AND time='" + time + "';", null);
         return c;
     }
 
-    public Cursor showComplete() { //완료한 리스트
+    //완료한 체크리스트
+    public Cursor showComplete() {
         db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM Todo WHERE state=1", null);
         return c;
     }
 
-    public Cursor showDonot() { //완료안한 리스트
+    //(시간대)완료안한 체크리스트
+    public Cursor showDonot(String time) {
         db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM Todo WHERE state=0", null);
+        Cursor c = db.rawQuery("SELECT * FROM Todo WHERE state=0 AND time='"+time+"';", null);
         return c;
+    }
+
+    //체크리스트 초기화
+    public boolean resetTodo() {
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DataBases.createTodo.STATE, 0);
+        return db.update(DataBases.createTodo._TABLETODO, values, "state=1", null) > 0;
+    }
+
+    public Cursor showBucket() {
+        db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM Bucket;", null);
+        return c;
+
     }
 }

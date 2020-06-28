@@ -37,13 +37,13 @@ public class DiaryFragment extends Fragment {
         rv = root.findViewById(R.id.rvDiarylist);
         btnAdd = root.findViewById(R.id.btnAdd);
         dbHelper = new DataBaseHelper(getContext());
+        layoutManager = new LinearLayoutManager(this.getContext());
+        adapter = new DiaryRecyclerAdapter();
 
         data = new ArrayList<>();
         idx = new ArrayList<String>();
         getDataBase();
 
-        layoutManager = new LinearLayoutManager(this.getContext());
-        adapter = new DiaryRecyclerAdapter();
         adapter.setData(data);
         adapter.setIdx(idx);
         rv.setAdapter(adapter);
@@ -73,5 +73,6 @@ public class DiaryFragment extends Fragment {
             data.add(new DiaryListData(day, title, date));
             idx.add(tidx);
         }
+        adapter.notifyDataSetChanged();
     }
 }

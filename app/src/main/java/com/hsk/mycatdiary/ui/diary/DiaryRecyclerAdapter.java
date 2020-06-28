@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +45,6 @@ public class DiaryRecyclerAdapter extends RecyclerView.Adapter<DiaryRecyclerAdap
                 Intent intent = new Intent(v.getContext(),DiaryContent.class);
                 intent.putExtra("id",sId);
                 v.getContext().startActivity(intent);
-                Toast.makeText(v.getContext(), "아이디:"+sId, Toast.LENGTH_SHORT).show();
             }
         });
     }

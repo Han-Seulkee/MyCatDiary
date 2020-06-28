@@ -33,7 +33,7 @@
         android:bufferType="spannable"
         android:paddingHorizontal="15dp"
         android:paddingVertical="20dp"
-        android:text="OO의 O차 지구정복 시도까지\nD-365"
+        android:text="!!의 지구정복 시도까지\nD-##"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -118,7 +118,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#0000"
-                android:src="@drawable/ic_shortcut_btn" />
+                android:layout_gravity="center"
+                android:src="@drawable/ic_call" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#0000"
-                android:src="@drawable/ic_shortcut_btn" />
+                android:src="@drawable/ic_camera" />
         </LinearLayout>
 
         <LinearLayout
@@ -162,7 +163,7 @@
                 android:layout_height="wrap_content"
 
                 android:background="#0000"
-                android:src="@drawable/ic_shortcut_btn" />
+                android:src="@drawable/ic_dict" />
         </LinearLayout>
     </RelativeLayout>
 

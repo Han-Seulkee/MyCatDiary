@@ -3,6 +3,8 @@
     package="com.hsk.mycatdiary">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".LoginActivity" android:label="@string/app_name" >
+        <activity android:name=".LoginActivity" android:label="@string/app_name" />
+        <activity android:name=".MainActivity" android:label="마이 캣\n다이어리">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:label="마이캣다이어리"/>
         <activity android:name=".ui.diary.DiaryWrite" android:label="일지쓰기"/>
         <activity android:name=".ui.diary.DiaryContent" android:label="일지읽기"/>
     </application>
