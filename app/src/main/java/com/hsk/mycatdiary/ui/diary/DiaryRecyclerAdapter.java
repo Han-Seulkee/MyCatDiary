@@ -47,6 +47,12 @@ public class DiaryRecyclerAdapter extends RecyclerView.Adapter<DiaryRecyclerAdap
                 v.getContext().startActivity(intent);
             }
         });
+
+        getItemPositoin(position);
+    }
+
+    public int getItemPositoin(int position) {
+        return position;
     }
 
     @Override

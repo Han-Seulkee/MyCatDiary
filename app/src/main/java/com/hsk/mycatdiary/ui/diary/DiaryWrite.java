@@ -64,6 +64,7 @@ public class DiaryWrite extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        adapter = new DiaryRecyclerAdapter();
         btnCommit = findViewById(R.id.btnCommit);
         editTitle = findViewById(R.id.editTitle);
         editDate = findViewById(R.id.editDate);
@@ -140,14 +141,15 @@ public class DiaryWrite extends AppCompatActivity {
                 } else {
                     if (isEdit) {
                         dbHelper.updateDiary(id, TITLE, DATE, CONTENT, STATE);
-
+                        adapter.notifyDataSetChanged();
                         finish();
                     } else {
                         dbHelper.insertDiary(TITLE, DATE, CONTENT, STATE);
-
+                        adapter.notifyDataSetChanged();
                         finish();
                     }
                 }
+
             }
         });
 

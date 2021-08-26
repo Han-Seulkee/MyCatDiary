@@ -85,6 +85,7 @@ public class DiaryContent extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(getApplicationContext(), "삭제했습니다.", Toast.LENGTH_SHORT).show();
                             dbHelper.deleteDiary(id);
+                            adapter.notifyDataSetChanged();
                             finish();
                         }
                     });

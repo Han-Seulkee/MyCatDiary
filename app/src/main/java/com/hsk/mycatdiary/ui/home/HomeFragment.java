@@ -18,8 +18,6 @@ import androidx.navigation.Navigation;
 import com.hsk.mycatdiary.DataBaseHelper;
 import com.hsk.mycatdiary.R;
 
-import java.util.Calendar;
-
 public class HomeFragment extends Fragment {
     ImageButton btnShortcut, call, camera, dict;
 
@@ -42,7 +40,7 @@ public class HomeFragment extends Fragment {
 
         getCatInfo();
 
-        String[] temp = catBirth.split("-");
+        /*String[] temp = catBirth.split("-");
         int m=Integer.parseInt(temp[1]);
         int d=Integer.parseInt(temp[2]);
 
@@ -52,10 +50,9 @@ public class HomeFragment extends Fragment {
         long l_d_day = d_day.getTimeInMillis()/(24*60*60*1000);
         long l_today = today.getTimeInMillis()/(24*60*60*1000);
         long substract = l_today - l_d_day;
-        String dday = Long.toString(substract);
+        String dday = Long.toString(substract);*/
 
         tv1.setText(tv1.getText().toString().replace("!!",catName));
-        tv1.setText(tv1.getText().toString().replace("##",dday));
 
         btnShortcut.setOnClickListener(new View.OnClickListener() {
             @Override

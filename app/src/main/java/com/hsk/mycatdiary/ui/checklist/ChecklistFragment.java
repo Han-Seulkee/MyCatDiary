@@ -2,6 +2,7 @@ package com.hsk.mycatdiary.ui.checklist;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class ChecklistFragment extends Fragment {
     //list는 todo목록, idx는 아이디
     ArrayList<String> list,idx;
     ArrayList<String> checkedIdx,unCheckedIdx;
-    ArrayList<CheckedlistListData> checkedList;
+    ArrayList<CheckedlistListData> checkedList; //리사이클러뷰에 올릴 데이터 리스트
     ArrayList<uCheckedlistListData> unCheckedList;
 
     DataBaseHelper dbHelper;
@@ -85,6 +86,9 @@ public class ChecklistFragment extends Fragment {
                     if(buttonView.isChecked()){
                         nowIndex = Long.parseLong(idx.get(i2));
                         dbHelper.updateTodoState(nowIndex, 1);
+
+                        cadapter.addData(new CheckedlistListData(list.get(i2)));
+                        Log.i("list : ",list.get(i2));
                     }
                 }
             });

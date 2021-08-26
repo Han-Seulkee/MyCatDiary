@@ -62,6 +62,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.insert(DataBases.createDiary._TABLEDIARY, null, values);
     }
 
+    //장바구니 항목 저장
     public long insertBucket(String goods, String tag, String link) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
