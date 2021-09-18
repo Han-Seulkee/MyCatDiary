@@ -29,21 +29,21 @@ public class ChecklistFragment extends Fragment {
     TextView testTv;
     ImageButton btnPrev, btnNext;
 
-    //list는 todo목록, idx는 아이디
-    ArrayList<String> list,idx;
-    ArrayList<String> checkedIdx,unCheckedIdx;
+    //list는 todo목록, idx는 todo아이디
+    ArrayList<String> list, idx;
+    ArrayList<String> checkedIdx, unCheckedIdx;
     ArrayList<CheckedlistListData> checkedList; //리사이클러뷰에 올릴 데이터 리스트
     ArrayList<uCheckedlistListData> unCheckedList;
 
     DataBaseHelper dbHelper;
 
-    RecyclerView rvCheckedlist,rvUnCheckedlist ;
+    RecyclerView rvCheckedlist, rvUnCheckedlist;
     LinearLayoutManager lm1, lm2;
     CheckedlistAdapter cadapter;
     UnCheckedlistAdapter uadapter;
 
-    long nowIndex;
-    String time;
+
+    String time, nowIndex;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,25 +71,32 @@ public class ChecklistFragment extends Fragment {
         //체크리스트 불러오기
         getCheckList();
 
+
         //뷰플리퍼에 체크리스트(체크박스) 동적으로 추가
-        CheckBox cb[] = new CheckBox[list.size()];
-        for (int i = 0;i<list.size();i++){
+        final CheckBox cb[] = new CheckBox[list.size()];
+        for (int i = 0; i < list.size(); i++) {
             cb[i] = new CheckBox(getContext());
             cb[i].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             cb[i].setButtonDrawable(R.drawable.checkbox_check);
             cb[i].setText(list.get(i));
             cb[i].setTextSize(30);
             vf.addView(cb[i]);
-            final int i2 = i;
+            final String cbIdx = idx.get(i);
+            final int j = i;
+
+            //뷰플리퍼안 체크리스트에 체크를 했을때 체크리스트완료목록 갱신
             cb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(buttonView.isChecked()){
-                        nowIndex = Long.parseLong(idx.get(i2));
+                    if (buttonView.isChecked()) {
+                        nowIndex = cbIdx;
                         dbHelper.updateTodoState(nowIndex, 1);
 
-                        cadapter.addData(new CheckedlistListData(list.get(i2)));
-                        Log.i("list : ",list.get(i2));
+                        cadapter.addData(new CheckedlistListData(list.get(j)));
+                        Log.i("리스트 누름 : ", list.get(j));
+                        Log.i("인덱스 : ", String.valueOf(cbIdx));
+                        vf.removeView(cb[j]);
+
                     }
                 }
             });
@@ -105,13 +112,13 @@ public class ChecklistFragment extends Fragment {
 
         lm1 = new LinearLayoutManager(this.getContext());
         cadapter.setData(checkedList);
-        cadapter.setIdx(checkedIdx);
+        //cadapter.setIdx(checkedIdx);
         rvCheckedlist.setAdapter(cadapter);
         rvCheckedlist.setLayoutManager(lm1);
 
         lm2 = new LinearLayoutManager(this.getContext());
         uadapter.setData(unCheckedList);
-        uadapter.setIdx(unCheckedIdx);
+        //uadapter.setIdx(unCheckedIdx);
         rvUnCheckedlist.setAdapter(uadapter);
         rvUnCheckedlist.setLayoutManager(lm2);
 
@@ -131,6 +138,7 @@ public class ChecklistFragment extends Fragment {
         }
     };
 
+
     //시간에 맞게 조회, 리스트에 저장
     void getCheckList() {
         //Date now = Calendar.getInstance().getTime();
@@ -140,8 +148,8 @@ public class ChecklistFragment extends Fragment {
         SimpleDateFormat hour = new SimpleDateFormat("HH");
         String nTime = hour.format(newDate);
         int s = Integer.parseInt(nTime);
-        /*int s = 6;
-        testTv.setText("지금은"+s+"시");   테스트용*/
+        //int s = 6;
+        testTv.setText("지금은" + s + "시");   //테스트용
         if (s >= 6 && s < 9) {
             time = "1st";
         } else if (s >= 9 && s < 12) {
@@ -158,7 +166,7 @@ public class ChecklistFragment extends Fragment {
         Cursor c = dbHelper.showTodo(time);
         list.clear();
         idx.clear();
-        while(c.moveToNext()){
+        while (c.moveToNext()) {
             String tidx = c.getString(c.getColumnIndex("_id"));
             list.add(c.getString(c.getColumnIndex("todo")));
             idx.add(tidx);
@@ -169,22 +177,23 @@ public class ChecklistFragment extends Fragment {
         Cursor c = dbHelper.showComplete();
         checkedList.clear();
         checkedIdx.clear();
-        while (c.moveToNext()){
+        while (c.moveToNext()) {
             String tidx = c.getString(c.getColumnIndex("_id"));
             String td = c.getString(c.getColumnIndex("todo"));
-            checkedList.add(new CheckedlistListData(td));
-            checkedIdx.add(tidx);
+            checkedList.add(new CheckedlistListData(td, tidx));
+            //checkedIdx.add(tidx);
         }
     }
+
     void getUnChecked() {
-        Cursor c = dbHelper.showDonot(time);
+        Cursor c = dbHelper.showDonot(/*time*/);
         unCheckedList.clear();
         unCheckedIdx.clear();
-        while (c.moveToNext()){
+        while (c.moveToNext()) {
             String tidx = c.getString(c.getColumnIndex("_id"));
             String td = c.getString(c.getColumnIndex("todo"));
-            unCheckedList.add(new uCheckedlistListData(td));
-            unCheckedIdx.add(tidx);
+            unCheckedList.add(new uCheckedlistListData(td, tidx));
+            //unCheckedIdx.add(tidx);
         }
     }
 

@@ -17,11 +17,16 @@ import java.util.ArrayList;
 
 public class UnCheckedlistAdapter extends RecyclerView.Adapter<UnCheckedlistAdapter.UnCheckedlistViewHolder> {
     private ArrayList<uCheckedlistListData> datas;
-    private ArrayList<String> idxs;
+    String idxs;
+    //private ArrayList<String> idxs;
     private CheckedlistAdapter ca;
 
-    public void setData(ArrayList<uCheckedlistListData> list ) {datas = list;}
-    public void setIdx(ArrayList<String> idx) {idxs = idx;}
+    public void setData(ArrayList<uCheckedlistListData> list) {
+        datas = list;
+    }
+
+    //public void setIdx(ArrayList<String> idx) { idxs = idx; }
+
     public void addData(uCheckedlistListData data) {
         datas.add(0, data);
         notifyItemRangeInserted(0, datas.size());
@@ -32,7 +37,7 @@ public class UnCheckedlistAdapter extends RecyclerView.Adapter<UnCheckedlistAdap
     @NonNull
     @Override
     public UnCheckedlistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_uncheckedlist,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_uncheckedlist, parent, false);
 
         UnCheckedlistViewHolder holder = new UnCheckedlistViewHolder(view);
         dbHelper = new DataBaseHelper(parent.getContext());
@@ -44,15 +49,18 @@ public class UnCheckedlistAdapter extends RecyclerView.Adapter<UnCheckedlistAdap
     @Override
     public void onBindViewHolder(@NonNull UnCheckedlistViewHolder holder, final int position) {
         uCheckedlistListData data = datas.get(position);
+        idxs = data.getIdx();
         final String todo = data.getTodo();
         ca = new CheckedlistAdapter();
         holder.cb.setText(todo);
         holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                long sId = Long.parseLong(idxs.get(position));
+
+                Log.i("시부엉", String.valueOf(getItemCount()));
+                String sId = idxs;
                 dbHelper.updateTodoState(sId, 1);
-                ca.addData(new CheckedlistListData(todo));
+                ca.addData(new CheckedlistListData(todo, idxs));
                 Log.i("untodo : ", todo);
 
                 datas.remove(position);
@@ -70,6 +78,7 @@ public class UnCheckedlistAdapter extends RecyclerView.Adapter<UnCheckedlistAdap
 
     public class UnCheckedlistViewHolder extends RecyclerView.ViewHolder {
         public CheckBox cb;
+
         public UnCheckedlistViewHolder(@NonNull View itemView) {
             super(itemView);
 

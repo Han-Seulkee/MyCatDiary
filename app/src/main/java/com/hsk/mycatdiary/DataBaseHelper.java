@@ -84,7 +84,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //체크리스트 상태 변경시
-    public boolean updateTodoState(long id, int state) {
+    public boolean updateTodoState(String id, int state) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DataBases.createTodo.STATE, state);
@@ -132,9 +132,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //(시간대)완료안한 체크리스트
-    public Cursor showDonot(String time) {
+    public Cursor showDonot(/*String time*/) {
         db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM Todo WHERE state=0 AND time='"+time+"';", null);
+        Cursor c = db.rawQuery("SELECT * FROM Todo WHERE state=0/* AND time='"+time+"'*/;", null);
         return c;
     }
 
