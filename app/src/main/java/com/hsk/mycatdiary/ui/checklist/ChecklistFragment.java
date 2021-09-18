@@ -22,12 +22,11 @@ import com.hsk.mycatdiary.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ChecklistFragment extends Fragment {
     ViewFlipper vf;
-    TextView bg;
+    TextView testTv;
     ImageButton btnPrev, btnNext;
 
     //list는 todo목록, idx는 아이디
@@ -57,6 +56,8 @@ public class ChecklistFragment extends Fragment {
         vf = root.findViewById(R.id.vf);
         btnPrev = root.findViewById(R.id.btnPrev);
         btnNext = root.findViewById(R.id.btnNext);
+
+        testTv = root.findViewById(R.id.testTv);
 
         dbHelper = new DataBaseHelper(getContext());
 
@@ -132,10 +133,15 @@ public class ChecklistFragment extends Fragment {
 
     //시간에 맞게 조회, 리스트에 저장
     void getCheckList() {
-        Date now = Calendar.getInstance().getTime();
+        //Date now = Calendar.getInstance().getTime();
+        long now = System.currentTimeMillis();
+        Date newDate = new Date(now);
+
         SimpleDateFormat hour = new SimpleDateFormat("HH");
-        String nTime = hour.format(now);
+        String nTime = hour.format(newDate);
         int s = Integer.parseInt(nTime);
+        /*int s = 6;
+        testTv.setText("지금은"+s+"시");   테스트용*/
         if (s >= 6 && s < 9) {
             time = "1st";
         } else if (s >= 9 && s < 12) {
@@ -144,9 +150,10 @@ public class ChecklistFragment extends Fragment {
             time = "3rd";
         } else if (s >= 15 && s < 18) {
             time = "4th";
-        } else if (s >= 18 && s < 21) {
+        } else if (s >= 18 && s < 24) {
             time = "5th";
         } else reset();
+
 
         Cursor c = dbHelper.showTodo(time);
         list.clear();
