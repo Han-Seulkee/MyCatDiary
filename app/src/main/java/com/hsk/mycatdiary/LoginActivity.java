@@ -27,8 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     DataBaseHelper dbHelper;
 
     SimpleDateFormat dayFormat, monthFormat, yearFormat;
-    String nYear, nMonth, nDay;
-    int ty, tm, td, y, m, d, CATAGE;
+    int nYear, nMonth, nDay;
+    int CATAGE;
 
     String BIRTH, CATNAME, HOSPITAL;
 
@@ -50,13 +50,10 @@ public class LoginActivity extends AppCompatActivity {
         dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
         monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
         yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
-        nYear = yearFormat.format(now);
-        nMonth = monthFormat.format(now);
-        nDay = dayFormat.format(now);
         //오늘날짜를 int로 변형 -> DatePicker에서 기본날짜로 설정
-        ty = Integer.parseInt(nYear);
-        tm = Integer.parseInt(nMonth) - 1;
-        td = Integer.parseInt(nDay);
+        nYear = Integer.parseInt(yearFormat.format(now));
+        nMonth = Integer.parseInt(monthFormat.format(now)) - 1;
+        nDay = Integer.parseInt(dayFormat.format(now));
 
         //날짜 선택
         btnDatepick.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                int y, m, d;
                 y = year;
                 m = monthOfYear + 1;
                 d = dayOfMonth;
@@ -81,11 +79,11 @@ public class LoginActivity extends AppCompatActivity {
                 String mForm = myFormatter.format(m);
                 String dForm = myFormatter.format(d);
 
-                CATAGE = ty - y;
+                CATAGE = nYear - y;
                 BIRTH = y + "-" + mForm + "-" + dForm;
                 editBirth.setText(BIRTH); //선택된 날짜로 설정
             }
-        }, ty, tm, td);
+        }, nYear, nMonth, nDay);
         datePickerDialog.show();
     }
 

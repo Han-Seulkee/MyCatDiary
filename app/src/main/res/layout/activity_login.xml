@@ -18,87 +18,124 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvLogin"
+        android:id="@+id/tvId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="70dp"
-        android:text="고양이 정보입력"
-        android:textSize="18dp"
+        android:text="아이디"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apptitle" />
 
     <View
-        android:id="@+id/bar"
+        android:id="@+id/idBar"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="5dp"
         android:background="#eeeeee"
-        app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/tvId" />
 
     <EditText
-        android:id="@+id/editCatname"
+        android:id="@+id/editId"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="60dp"
         android:layout_marginVertical="5dp"
         android:background="@android:drawable/editbox_background_normal"
-        android:hint="고양이 이름"
-        app:layout_constraintTop_toBottomOf="@+id/bar" />
+        android:hint="아이디"
+        app:layout_constraintTop_toBottomOf="@+id/idBar" />
+
+    <TextView
+        android:id="@+id/tvPw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="10dp"
+        android:text="비밀번호"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editId" />
+
+    <View
+        android:id="@+id/pwBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="5dp"
+        android:background="#eeeeee"
+        app:layout_constraintTop_toBottomOf="@+id/tvPw" />
 
     <EditText
-        android:id="@+id/editBirth"
+        android:id="@+id/editPw"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:background="@android:drawable/editbox_background_normal"
         android:hint="고양이 생일 YYYY-MM-DD"
-        app:layout_constraintTop_toBottomOf="@+id/editCatname" />
+        app:layout_constraintTop_toBottomOf="@+id/pwBar" />
 
-    <ImageButton
-        android:id="@+id/btnDatepick"
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        app:layout_constraintRight_toRightOf="@+id/editBirth"
-        app:layout_constraintTop_toTopOf="@+id/editBirth"
-        app:layout_constraintBottom_toBottomOf="@+id/editBirth"
-        android:background="#0000"
-        android:src="@drawable/ic_calender" />
+        android:checked="true"
+        android:text="자동로그인"
+        app:layout_constraintRight_toRightOf="@+id/editPw"
+        app:layout_constraintTop_toBottomOf="@+id/editPw"></CheckBox>
 
-    <EditText
-        android:id="@+id/editHospital"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="20dp"
-        android:background="@android:drawable/editbox_background_normal"
-        android:hint="동물병원 전화번호"
-        app:layout_constraintTop_toBottomOf="@+id/editBirth" />
-
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editHospital">
+        app:layout_constraintTop_toBottomOf="@id/editPw">
 
         <Button
-            android:id="@+id/login"
-            android:layout_width="100dp"
+            android:id="@+id/btnLogin"
+            android:layout_width="250dp"
             android:layout_height="40dp"
-            android:onClick="onLogin"
             android:background="@drawable/emph_button"
-            android:text="시작하기"
+            android:onClick="onLogin"
+            android:text="로그인"
             android:textColor="#fff"
-            android:textStyle="bold"
-            />
-    </RelativeLayout>
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+
+            android:id="@+id/btnJoin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="onJoin"
+                android:text="아이디/비밀번호 찾기"
+                android:textColor="#6A6A6A"
+                android:textStyle="bold"
+                android:focusable="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="onJoin"
+                android:text="회원가입"
+                android:textColor="#6A6A6A"
+                android:textStyle="bold"
+                android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
