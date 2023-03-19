@@ -1,5 +1,6 @@
 package com.hsk.mycatdiary.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,7 +22,7 @@ import com.hsk.mycatdiary.R;
 public class HomeFragment extends Fragment {
     ImageButton btnShortcut, call, camera, dict;
 
-    TextView tv1;
+    TextView tvCatName;
 
     DataBaseHelper dbHelper;
     String catName, catBirth, num;
@@ -34,11 +35,11 @@ public class HomeFragment extends Fragment {
         call = root.findViewById(R.id.call);
         camera = root.findViewById(R.id.camera);
         dict = root.findViewById(R.id.dict);
-        tv1 = root.findViewById(R.id.tv1);
+        tvCatName = root.findViewById(R.id.tvCatName);
 
-        dbHelper = new DataBaseHelper(getContext());
+        dbHelper = new DataBaseHelper(this.getContext());
 
-        getCatInfo();
+        //getCatInfo();
 
         /*String[] temp = catBirth.split("-");
         int m=Integer.parseInt(temp[1]);
@@ -52,7 +53,7 @@ public class HomeFragment extends Fragment {
         long substract = l_today - l_d_day;
         String dday = Long.toString(substract);*/
 
-        tv1.setText(tv1.getText().toString().replace("!!",catName));
+        //tvCatName.setText(tvCatName.getText().toString().replace("!!",catName));
 
         btnShortcut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +70,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    @SuppressLint("Range")
     void getCatInfo() {
         Cursor c = dbHelper.selectCat();
         while (c.moveToNext()){

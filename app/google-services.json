@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "766647106278",
+    "project_id": "my-cat-diary-7010b",
+    "storage_bucket": "my-cat-diary-7010b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766647106278:android:eb3934b0ac83082ea25927",
+        "android_client_info": {
+          "package_name": "com.hsk.mycatdiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766647106278-6cpnfubdv5vaiu3b9jhds35rk4kof3v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfuRe6YWdq-lxG54CRYmoootK2vQDe8BA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766647106278-6cpnfubdv5vaiu3b9jhds35rk4kof3v8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

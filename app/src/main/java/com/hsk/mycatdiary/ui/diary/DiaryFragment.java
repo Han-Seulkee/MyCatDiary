@@ -1,5 +1,6 @@
 package com.hsk.mycatdiary.ui.diary;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -60,14 +61,14 @@ public class DiaryFragment extends Fragment {
         return root;
     }
 
-
+    @SuppressLint("Range")
     public void getDataBase() {
         Cursor c = dbHelper.selectDiary();
         data.clear();
         idx.clear();
         while (c.moveToNext()){
             String tidx = c.getString(c.getColumnIndex("_id"));
-            String title = c.getString(c.getColumnIndex("title"));
+             String title = c.getString(c.getColumnIndex("title"));
             String date = c.getString(c.getColumnIndex("date"));
             String day = date.substring(8);
             data.add(new DiaryListData(day, title, date));
